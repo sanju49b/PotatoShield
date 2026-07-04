@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potato Blight Risk Calculation Methodology</title>
+    <style>
+        @media print {
+            @page {
+                size: A4;
+                margin: 2cm;
+            }
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 32px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            page-break-after: avoid;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #95a5a6;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            page-break-after: avoid;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            page-break-after: avoid;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+        
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            page-break-inside: avoid;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #333;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        blockquote {
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            padding-left: 15px;
+            color: #555;
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #ecf0f1;
+            margin: 30px 0;
+        }
+        
+        strong {
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        em {
+            color: #555;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">📄 Print to PDF</button>
+    
+    <div class="header">
+        <h1>Potato Blight Risk Calculation Methodology</h1>
+        <div class="subtitle">
+            Comprehensive Documentation of the Predictive Algorithm<br>
+            Version 2.0 (Sliding Window Implementation)<br>
+            Last Updated: January 2025
+        </div>
+    </div>
+
+    <h1>Overview</h1>
+    <p>The Potato Shield predictive algorithm uses a <strong>deterministic, sliding-window approach</strong> to calculate disease risk percentages for Late Blight and Early Blight. This ensures consistent, reproducible results based on weather data analysis.</p>
+
+    <hr>
+
+    <h1>1. Algorithm Architecture</h1>
+    
+    <h2>1.1 Two-Stage Approach</h2>
+    <ol>
+        <li><strong>Deterministic Risk Calculation</strong>: Uses mathematical formulas based on weather parameters</li>
+        <li><strong>AI Contextual Analysis</strong>: Provides recommendations and contextual insights (does NOT affect risk percentages)</li>
+    </ol>
+    
+    <h2>1.2 Key Principles</h2>
+    <ul>
+        <li><strong>Deterministic</strong>: Same weather data always produces same risk percentage</li>
+        <li><strong>Sliding Window</strong>: Each day's risk considers surrounding days for context</li>
+        <li><strong>Weighted Factors</strong>: Different weather parameters have different importance</li>
+        <li><strong>Country-Specific</strong>: Different thresholds for India vs UK conditions</li>
+    </ul>
+
+    <hr>
+
+    <h1>2. Sliding Window Implementation</h1>
+    
+    <h2>2.1 Window Structure</h2>
+    <p>For each day <code>i</code> in the forecast:</p>
+    <ul>
+        <li><strong>Window Size</strong>: 7 days total</li>
+        <li><strong>Window Range</strong>: <code>[i - 3, i + 3]</code> (3 days before + current day + 3 days after)</li>
+        <li><strong>Boundary Handling</strong>:
+            <ul>
+                <li>At start: <code>window_start = max(0, i - 3)</code></li>
+                <li>At end: <code>window_end = min(len(dates) - 1, i + 3)</code></li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h2>2.2 Weighting Strategy</h2>
+    <ul>
+        <li><strong>Current Day Weight</strong>: 40% (primary importance)</li>
+        <li><strong>Surrounding Days Weight</strong>: 60% shared equally among other days in window</li>
+        <li><strong>Purpose</strong>: Balances immediate conditions with trend context</li>
+    </ul>
+    
+    <h2>2.3 Effective Values Calculation</h2>
+    <p>For each weather parameter:</p>
+    <pre><code>effective_value = current_day_value (if available)
+                OR window_average (if current day missing)</code></pre>
+    <p>Window averages are calculated as:</p>
+    <ul>
+        <li>Simple average for: temp_min, temp_max, humidity_min, humidity_max, wind, cloud</li>
+        <li>Weighted average for: temp_mean, humidity_mean (current day 40%, others 60%)</li>
+        <li>Sum for: precipitation (total in window)</li>
+    </ul>
+
+    <hr>
+
+    <h1>3. Late Blight Risk Calculation</h1>
+    
+    <h2>3.1 Formula Structure</h2>
+    <pre><code>Late Blight Risk = (Temperature Risk × 0.25) + 
+                   (Humidity Risk × 0.35) + 
+                   (Precipitation Risk × 0.20) + 
+                   (Wind Risk × 0.10) + 
+                   (Cloud Cover Risk × 0.10)</code></pre>
+    <p><strong>Total Weight</strong>: 1.0 (100%)</p>
+    
+    <h2>3.2 Temperature Factor (25% weight)</h2>
+    <p><strong>Optimal Range</strong>: 10-20°C (min temp 8-12°C, max temp 18-22°C)</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Temperature Range</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10-20°C</td>
+                <td>20</td>
+                <td>Low risk - optimal pathogen activity range</td>
+            </tr>
+            <tr>
+                <td>8-10°C or 20-25°C</td>
+                <td>40</td>
+                <td>Moderate risk - slightly outside optimal</td>
+            </tr>
+            <tr>
+                <td>5-8°C or 25-30°C</td>
+                <td>60</td>
+                <td>Higher risk - suboptimal conditions</td>
+            </tr>
+            <tr>
+                <td>&lt;5°C or &gt;30°C</td>
+                <td>30</td>
+                <td>Lower risk - pathogen less active</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><strong>Fallback</strong>: If mean temp unavailable, uses <code>(temp_min + temp_max) / 2</code></p>
+    
+    <h2>3.3 Humidity Factor (35% weight - MOST IMPORTANT)</h2>
+    <p><strong>Critical Threshold</strong>: RH ≥90% for extended periods</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Humidity Range</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>≥90%</td>
+                <td>90</td>
+                <td>Very high risk - spore germination enabled</td>
+            </tr>
+            <tr>
+                <td>≥85%</td>
+                <td>70</td>
+                <td>High risk - favorable for disease</td>
+            </tr>
+            <tr>
+                <td>≥80%</td>
+                <td>50</td>
+                <td>Moderate risk</td>
+            </tr>
+            <tr>
+                <td>≥70%</td>
+                <td>30</td>
+                <td>Low risk</td>
+            </tr>
+            <tr>
+                <td>&lt;70%</td>
+                <td>15</td>
+                <td>Very low risk</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><strong>Fallback</strong>: If mean unavailable, uses <code>humidity_max</code> (conservative estimate)</p>
+    
+    <h2>3.4 Precipitation Factor (20% weight)</h2>
+    <p><strong>Impact</strong>: Rain increases disease spread and creates favorable conditions</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Precipitation</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>≥10mm</td>
+                <td>80</td>
+                <td>High risk - heavy rain spreads spores</td>
+            </tr>
+            <tr>
+                <td>≥5mm</td>
+                <td>60</td>
+                <td>Moderate risk</td>
+            </tr>
+            <tr>
+                <td>≥2mm</td>
+                <td>40</td>
+                <td>Low-moderate risk</td>
+            </tr>
+            <tr>
+                <td>&gt;0mm</td>
+                <td>25</td>
+                <td>Low risk - light rain</td>
+            </tr>
+            <tr>
+                <td>0mm</td>
+                <td>10</td>
+                <td>Very low risk - no rain</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>3.5 Wind Factor (10% weight)</h2>
+    <p><strong>Principle</strong>: Low wind = higher risk (spores don't disperse)</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Wind Speed</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>&lt;5 km/h</td>
+                <td>70</td>
+                <td>High risk - spores remain in canopy</td>
+            </tr>
+            <tr>
+                <td>&lt;10 km/h</td>
+                <td>50</td>
+                <td>Moderate risk</td>
+            </tr>
+            <tr>
+                <td>&lt;15 km/h</td>
+                <td>30</td>
+                <td>Lower risk - moderate dispersal</td>
+            </tr>
+            <tr>
+                <td>≥15 km/h</td>
+                <td>15</td>
+                <td>Very low risk - high wind disperses spores</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>3.6 Cloud Cover Factor (10% weight)</h2>
+    <p><strong>Impact</strong>: High clouds = prolonged humidity = higher risk</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Cloud Cover</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>≥80%</td>
+                <td>60</td>
+                <td>High risk - overcast conditions</td>
+            </tr>
+            <tr>
+                <td>≥60%</td>
+                <td>40</td>
+                <td>Moderate risk</td>
+            </tr>
+            <tr>
+                <td>≥40%</td>
+                <td>25</td>
+                <td>Low risk</td>
+            </tr>
+            <tr>
+                <td>&lt;40%</td>
+                <td>10</td>
+                <td>Very low risk - clear skies allow drying</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>3.7 Minimum Visibility</h2>
+    <p>If calculated risk &gt; 0 but &lt; 5%, it's set to 5% to ensure visibility.</p>
+
+    <hr>
+
+    <h1>4. Early Blight Risk Calculation</h1>
+    
+    <h2>4.1 Formula Structure</h2>
+    <pre><code>Early Blight Risk = (Temperature Risk × 0.30) + 
+                    (Humidity Risk × 0.25) + 
+                    (Precipitation Risk × 0.25) + 
+                    (Wind Risk × 0.10) + 
+                    (Cloud Cover Risk × 0.10)</code></pre>
+    <p><strong>Total Weight</strong>: 1.0 (100%)</p>
+    
+    <h2>4.2 Temperature Factor (30% weight)</h2>
+    <p><strong>Optimal Range</strong>: 20-25°C (warm days + cool nights)</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Temperature Range</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>20-25°C</td>
+                <td>60</td>
+                <td>Optimal for Early Blight</td>
+            </tr>
+            <tr>
+                <td>18-20°C or 25-28°C</td>
+                <td>50</td>
+                <td>Good conditions</td>
+            </tr>
+            <tr>
+                <td>15-18°C or 28-30°C</td>
+                <td>40</td>
+                <td>Moderate</td>
+            </tr>
+            <tr>
+                <td>&lt;15°C or &gt;30°C</td>
+                <td>20</td>
+                <td>Too cold or hot</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><strong>Special Case</strong>: If min/max available, checks for warm days + cool nights:</p>
+    <ul>
+        <li>Ideal: avg 20-25°C AND day-night difference ≥8°C → Risk = 70</li>
+    </ul>
+    
+    <h2>4.3 Humidity Factor (25% weight)</h2>
+    <p><strong>Optimal Range</strong>: 70-90% (moderate humidity)</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Humidity Range</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>80-90%</td>
+                <td>70</td>
+                <td>Optimal range</td>
+            </tr>
+            <tr>
+                <td>70-80%</td>
+                <td>55</td>
+                <td>Good conditions</td>
+            </tr>
+            <tr>
+                <td>60-70%</td>
+                <td>40</td>
+                <td>Moderate</td>
+            </tr>
+            <tr>
+                <td>≥90%</td>
+                <td>50</td>
+                <td>Too high (more Late Blight)</td>
+            </tr>
+            <tr>
+                <td>&lt;60%</td>
+                <td>25</td>
+                <td>Too low</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>4.4 Precipitation Factor (25% weight)</h2>
+    <p><strong>Optimal Range</strong>: 5-15mm (moderate rain)</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Precipitation</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>5-15mm</td>
+                <td>65</td>
+                <td>Optimal</td>
+            </tr>
+            <tr>
+                <td>2-5mm or 15-20mm</td>
+                <td>50</td>
+                <td>Good</td>
+            </tr>
+            <tr>
+                <td>&gt;20mm</td>
+                <td>40</td>
+                <td>Too much rain</td>
+            </tr>
+            <tr>
+                <td>&gt;0mm</td>
+                <td>35</td>
+                <td>Light rain</td>
+            </tr>
+            <tr>
+                <td>0mm</td>
+                <td>20</td>
+                <td>No rain</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>4.5 Wind Factor (10% weight)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Wind Speed</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>&lt;8 km/h</td>
+                <td>55</td>
+                <td>Low wind helps</td>
+            </tr>
+            <tr>
+                <td>&lt;15 km/h</td>
+                <td>40</td>
+                <td>Moderate</td>
+            </tr>
+            <tr>
+                <td>≥15 km/h</td>
+                <td>25</td>
+                <td>High wind disperses</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>4.6 Cloud Cover Factor (10% weight)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Cloud Cover</th>
+                <th>Risk Score</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>50-70%</td>
+                <td>50</td>
+                <td>Moderate clouds optimal</td>
+            </tr>
+            <tr>
+                <td>40-50% or 70-80%</td>
+                <td>40</td>
+                <td>Good</td>
+            </tr>
+            <tr>
+                <td>≥80%</td>
+                <td>30</td>
+                <td>Too overcast (Late Blight)</td>
+            </tr>
+            <tr>
+                <td>&lt;40%</td>
+                <td>25</td>
+                <td>Clear skies</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h1>5. Overall Risk Percentage Calculation</h1>
+    
+    <h2>5.1 Per-Day Risk Calculation</h2>
+    <p>For each day <code>i</code>:</p>
+    <ol>
+        <li>Collect weather data for window <code>[i-3, i+3]</code></li>
+        <li>Calculate effective values (current day + window context)</li>
+        <li>Calculate Late Blight risk using formula</li>
+        <li>Calculate Early Blight risk using formula</li>
+        <li>Store both values</li>
+    </ol>
+    
+    <h2>5.2 Weighted Average Across Days</h2>
+    <p>After calculating risk for all days:</p>
+    <pre><code>weights = [0.5 + (i / total_days) * 0.5 for i in range(total_days)]</code></pre>
+    <p>This creates a linear weighting where:</p>
+    <ul>
+        <li>First day: weight = 0.5</li>
+        <li>Last day: weight = 1.0</li>
+        <li><strong>Recent days weighted more heavily</strong></li>
+    </ul>
+    <p>Final percentages:</p>
+    <pre><code>weighted_late_blight = sum(lb_risk[i] * weights[i]) / sum(weights)
+weighted_early_blight = sum(eb_risk[i] * weights[i]) / sum(weights)</code></pre>
+    
+    <h2>5.3 Risk Level Classification</h2>
+    <p><strong>Late Blight:</strong></p>
+    <ul>
+        <li><strong>High</strong>: ≥70%</li>
+        <li><strong>Medium</strong>: 40-69%</li>
+        <li><strong>Low</strong>: 20-39%</li>
+        <li><strong>None</strong>: &lt;20%</li>
+    </ul>
+    <p><strong>Early Blight:</strong></p>
+    <ul>
+        <li><strong>High</strong>: ≥70%</li>
+        <li><strong>Medium</strong>: 40-69%</li>
+        <li><strong>Low</strong>: 20-39%</li>
+        <li><strong>None</strong>: &lt;20%</li>
+    </ul>
+
+    <hr>
+
+    <h1>6. Crop Growth Stage Detection</h1>
+    
+    <h2>6.1 Days After Planting (DAP) Calculation</h2>
+    <pre><code>DAP = (Current Date - Sowing Date).days</code></pre>
+    <p>If sowing date not provided, defaults to 30 days.</p>
+    
+    <h2>6.2 Growth Stage Determination</h2>
+    <p><strong>India:</strong></p>
+    <ul>
+        <li>0-15 DAP: Sowing &amp; Germination</li>
+        <li>16-45 DAP: Vegetative Growth</li>
+        <li>46-60 DAP: Tuber Initiation</li>
+        <li>61-90 DAP: Tuber Bulking</li>
+        <li>91-110 DAP: Maturity &amp; Senescence</li>
+        <li>&gt;110 DAP: Harvest &amp; Storage</li>
+    </ul>
+    <p><strong>UK:</strong></p>
+    <ul>
+        <li>0-20 DAP: Sowing &amp; Germination</li>
+        <li>21-50 DAP: Vegetative Growth</li>
+        <li>51-75 DAP: Flowering</li>
+        <li>76-105 DAP: Tuber Formation</li>
+        <li>106-140 DAP: Maturity</li>
+        <li>&gt;140 DAP: Harvest</li>
+    </ul>
+    
+    <h2>6.3 Growth Stage Impact</h2>
+    <p>Growth stage is used for:</p>
+    <ul>
+        <li>Contextual risk assessment (some stages more susceptible)</li>
+        <li>AI recommendations (stage-specific advice)</li>
+        <li>Display in dashboard</li>
+    </ul>
+    <p><strong>Note</strong>: Growth stage does NOT directly modify risk percentages (those are purely weather-based).</p>
+
+    <hr>
+
+    <h1>7. Risk Timeline Generation</h1>
+    
+    <h2>7.1 Daily Risk Scores</h2>
+    <p>For chart visualization, each day gets its own risk score calculated using the sliding window approach.</p>
+    
+    <h2>7.2 Overall Risk Calculation</h2>
+    <pre><code>Overall Risk = (Late Blight Risk × 0.7) + (Early Blight Risk × 0.3)</code></pre>
+    <p>Late Blight weighted more heavily as it's more serious.</p>
+
+    <hr>
+
+    <h1>8. Key Features</h1>
+    
+    <h2>8.1 Deterministic Results</h2>
+    <ul>
+        <li>Same weather data → Same risk percentage</li>
+        <li>No randomness or AI variability in risk scores</li>
+        <li>Reproducible across runs</li>
+    </ul>
+    
+    <h2>8.2 Context-Aware</h2>
+    <ul>
+        <li>Sliding window considers trends, not just single day</li>
+        <li>Recent days weighted more heavily</li>
+        <li>Handles missing data gracefully</li>
+    </ul>
+    
+    <h2>8.3 Scientifically-Based</h2>
+    <ul>
+        <li>Thresholds based on epidemiological research</li>
+        <li>Different weights reflect relative importance</li>
+        <li>Country-specific considerations (India vs UK)</li>
+    </ul>
+    
+    <h2>8.4 Transparent</h2>
+    <ul>
+        <li>All calculations are explicit</li>
+        <li>Risk factor contributions visible</li>
+        <li>Methodology documented</li>
+    </ul>
+
+    <hr>
+
+    <h1>9. Example Calculation</h1>
+    
+    <h2>Input Data (Day 5):</h2>
+    <ul>
+        <li>Temperature: 15°C (mean), 12°C (min), 18°C (max)</li>
+        <li>Humidity: 88% (mean), 75% (min), 95% (max)</li>
+        <li>Precipitation: 8mm</li>
+        <li>Wind: 6 km/h</li>
+        <li>Cloud Cover: 75%</li>
+    </ul>
+    
+    <h2>Late Blight Calculation:</h2>
+    <ol>
+        <li><strong>Temperature</strong>: 15°C → Risk = 20 (optimal range) → 20 × 0.25 = <strong>5.0</strong></li>
+        <li><strong>Humidity</strong>: 88% → Risk = 70 (high) → 70 × 0.35 = <strong>24.5</strong></li>
+        <li><strong>Precipitation</strong>: 8mm → Risk = 60 (moderate) → 60 × 0.20 = <strong>12.0</strong></li>
+        <li><strong>Wind</strong>: 6 km/h → Risk = 50 (moderate) → 50 × 0.10 = <strong>5.0</strong></li>
+        <li><strong>Cloud Cover</strong>: 75% → Risk = 40 (moderate) → 40 × 0.10 = <strong>4.0</strong></li>
+    </ol>
+    <p><strong>Total Late Blight Risk</strong>: 5.0 + 24.5 + 12.0 + 5.0 + 4.0 = <strong>50.5%</strong></p>
+    
+    <h2>Early Blight Calculation:</h2>
+    <ol>
+        <li><strong>Temperature</strong>: 15°C → Risk = 40 (moderate) → 40 × 0.30 = <strong>12.0</strong></li>
+        <li><strong>Humidity</strong>: 88% → Risk = 50 (too high) → 50 × 0.25 = <strong>12.5</strong></li>
+        <li><strong>Precipitation</strong>: 8mm → Risk = 50 (good) → 50 × 0.25 = <strong>12.5</strong></li>
+        <li><strong>Wind</strong>: 6 km/h → Risk = 55 (low wind) → 55 × 0.10 = <strong>5.5</strong></li>
+        <li><strong>Cloud Cover</strong>: 75% → Risk = 40 (good) → 40 × 0.10 = <strong>4.0</strong></li>
+    </ol>
+    <p><strong>Total Early Blight Risk</strong>: 12.0 + 12.5 + 12.5 + 5.5 + 4.0 = <strong>46.5%</strong></p>
+
+    <hr>
+
+    <h1>10. Implementation Notes</h1>
+    
+    <h2>10.1 Data Sources</h2>
+    <ul>
+        <li>Weather data from Open-Meteo API</li>
+        <li>Daily aggregates from hourly data</li>
+        <li>8-day forecast window (4 days past + 3 days future)</li>
+    </ul>
+    
+    <h2>10.2 Missing Data Handling</h2>
+    <ul>
+        <li>Uses window averages if current day data missing</li>
+        <li>Falls back to min/max if mean unavailable</li>
+        <li>Conservative estimates (e.g., uses max humidity if mean missing)</li>
+    </ul>
+    
+    <h2>10.3 Performance</h2>
+    <ul>
+        <li>O(n × w) complexity where n = days, w = window size</li>
+        <li>Efficient: single pass through data</li>
+        <li>Cached calculations for chart generation</li>
+    </ul>
+
+    <hr>
+
+    <h1>11. Future Enhancements</h1>
+    <p>Potential improvements:</p>
+    <ol>
+        <li>Hourly risk calculations (currently daily)</li>
+        <li>Machine learning model integration</li>
+        <li>Historical pattern matching</li>
+        <li>Regional calibration factors</li>
+        <li>Real-time sensor data integration</li>
+    </ol>
+
+    <hr>
+
+    <h1>12. References</h1>
+    <ul>
+        <li>Late Blight thresholds: Fry &amp; Goodwin (1997), Zwankhuizen et al. (1998)</li>
+        <li>Early Blight thresholds: Rotem (1994), Shitenberg (2010)</li>
+        <li>UK Hutton Criteria: Hutton et al. (2004)</li>
+        <li>Indian potato growing conditions: ICAR research publications</li>
+    </ul>
+
+    <div class="footer">
+        <p><strong>Potato Shield</strong> - Advanced Agricultural Intelligence Platform</p>
+        <p>This document describes the deterministic risk calculation methodology used in the Potato Shield predictive system.</p>
+        <p><strong>Last Updated</strong>: January 2025 | <strong>Version</strong>: 2.0 (Sliding Window Implementation)</p>
+    </div>
+</body>
+</html>
+

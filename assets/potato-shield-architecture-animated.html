@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1600">
+  <title>Potato Shield – Animated System Architecture</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Amazon Ember', 'Segoe UI', system-ui, sans-serif;
+      background: #1a1d29;
+      color: #e8e8e8;
+      margin: 0;
+      padding: 24px 32px 48px;
+      min-width: 1400px;
+    }
+    h1 { text-align: center; font-size: 1.75rem; font-weight: 600; margin: 0 0 8px; letter-spacing: 0.02em; }
+    .subtitle { text-align: center; font-size: 0.95rem; color: #9ca3af; margin-bottom: 28px; }
+    .region {
+      border: 2px solid #3b82f6;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      background: rgba(59, 130, 246, 0.06);
+      transition: background 0.6s ease, box-shadow 0.6s ease, border-color 0.6s ease;
+    }
+    .region.highlight {
+      background: rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.35);
+      border-color: #60a5fa;
+    }
+    .region-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #93c5fd;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.35);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; justify-content: flex-start; }
+    .box {
+      border-radius: 8px;
+      padding: 10px 14px;
+      min-width: 140px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+    }
+    .box .label { font-weight: 600; margin-bottom: 2px; }
+    .box .detail { font-size: 0.7rem; color: #9ca3af; font-weight: 400; }
+    .box.user { background: linear-gradient(135deg, #374151 0%, #1f2937 100%); border-color: #4b5563; }
+    .box.frontend { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); border-color: #f97316; color: #fff; }
+    .box.api { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-color: #3b82f6; color: #fff; }
+    .box.rai { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border-color: #8b5cf6; color: #fff; }
+    .box.agent { background: linear-gradient(135deg, #059669 0%, #047857 100%); border-color: #10b981; color: #fff; }
+    .box.model { background: linear-gradient(135deg, #be185d 0%, #9d174d 100%); border-color: #ec4899; color: #fff; }
+    .box.memory { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); border-color: #14b8a6; color: #fff; }
+    .box.storage { background: linear-gradient(135deg, #b45309 0%, #92400e 100%); border-color: #d97706; color: #fff; }
+    .box.ext { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); border-color: #2563eb; color: #fff; }
+    .arrow-row { display: flex; justify-content: center; padding: 6px 0; color: #6b7280; font-size: 0.75rem; }
+    .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .step-indicator { text-align: center; font-size: 0.8rem; color: #60a5fa; margin-bottom: 12px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="step-indicator" id="stepIndicator">Potato Shield – System flow</div>
+  <h1>Potato Shield – System Architecture</h1>
+  <p class="subtitle">UK–India AIxcelerate · Responsible AI · Agents · Models · Algorithms</p>
+
+  <div class="region" data-step="1" id="region1">
+    <div class="region-title">1. User & presentation layer</div>
+    <div class="row">
+      <div class="box user"><div class="label">User (Farmer)</div><div class="detail">India / UK</div></div>
+      <div class="box frontend"><div class="label">Next.js frontend</div><div class="detail">Vercel · React · TypeScript · SSE</div></div>
+      <div class="box frontend"><div class="label">Chat UI</div><div class="detail">Streaming · Multi-language</div></div>
+      <div class="box frontend"><div class="label">Dashboard</div><div class="detail">Risk timeline · Map · Reports</div></div>
+    </div>
+  </div>
+  <div class="arrow-row">↓ HTTPS / REST · SSE</div>
+
+  <div class="region" data-step="2" id="region2">
+    <div class="region-title">2. API gateway & responsible AI</div>
+    <div class="row">
+      <div class="box api"><div class="label">FastAPI</div><div class="detail">api/main.py</div></div>
+      <div class="box api"><div class="label">Endpoints</div><div class="detail">/auth · /api/chat · /api/chat/stream</div></div>
+      <div class="box rai"><div class="label">RAI middleware</div><div class="detail">Input / output validation</div></div>
+      <div class="box rai"><div class="label">Local guard</div><div class="detail">PII · Blocked phrases</div></div>
+    </div>
+  </div>
+  <div class="arrow-row">↓ Sanitized input</div>
+
+  <div class="region" data-step="3" id="region3">
+    <div class="region-title">3. Infosys RAI Toolkit</div>
+    <div class="row">
+      <div class="box rai"><div class="label">Moderation</div><div class="detail">Injection · Jailbreak · Toxicity</div></div>
+      <div class="box rai"><div class="label">Privacy</div><div class="detail">PII · Anonymize</div></div>
+      <div class="box rai"><div class="label">Hallucination</div><div class="detail">Factual · RAG verify</div></div>
+      <div class="box rai"><div class="label">Safety · Fairness · Explainability</div></div>
+    </div>
+  </div>
+  <div class="arrow-row">↓ Safe input → workflow</div>
+
+  <div class="region" data-step="4" id="region4">
+    <div class="region-title">4. Agent orchestration (LangGraph)</div>
+    <div class="row">
+      <div class="box agent"><div class="label">Router agent</div><div class="detail">predictive / diagnostic / general_chat</div></div>
+      <div class="box agent"><div class="label">Predictive → Blight agent</div></div>
+      <div class="box agent"><div class="label">Diagnostic agent</div><div class="detail">Image · GPT-4V</div></div>
+      <div class="box agent"><div class="label">General chat agent</div><div class="detail">RAG · Tavily</div></div>
+    </div>
+  </div>
+  <div class="arrow-row">↓ State · Models</div>
+
+  <div class="region" data-step="5" id="region5">
+    <div class="region-title">5. Models & algorithms</div>
+    <div class="row">
+      <div class="box model"><div class="label">Disease classifier (ML)</div><div class="detail">95.2% acc</div></div>
+      <div class="box model"><div class="label">Rule engine · Sliding window</div></div>
+      <div class="box model"><div class="label">Hutton criteria · LLMs</div></div>
+    </div>
+  </div>
+
+  <div class="two-cols">
+    <div class="region" data-step="6" id="region6">
+      <div class="region-title">6. Memory & storage</div>
+      <div class="row">
+        <div class="box memory"><div class="label">Short-term · Long-term</div></div>
+        <div class="box storage"><div class="label">DynamoDB · SQLite</div></div>
+      </div>
+    </div>
+    <div class="region" data-step="7" id="region7">
+      <div class="region-title">7. External services</div>
+      <div class="row">
+        <div class="box ext"><div class="label">Open-Meteo · Tavily · OpenAI</div></div>
+        <div class="box ext"><div class="label">AWS SES · RAI backend</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="subtitle" style="margin-top:24px">Potato Shield · UK–India AIxcelerate</p>
+
+  <script>
+    var steps = [
+      '1. User & presentation',
+      '2. API & RAI',
+      '3. Infosys RAI Toolkit',
+      '4. Agent orchestration',
+      '5. Models & algorithms',
+      '6. Memory & storage',
+      '7. External services'
+    ];
+    var regions = document.querySelectorAll('.region');
+    var indicator = document.getElementById('stepIndicator');
+    var index = 0;
+    var duration = 2200;
+
+    function highlight() {
+      regions.forEach(function(r) { r.classList.remove('highlight'); });
+      var r = document.getElementById('region' + (index + 1));
+      if (r) r.classList.add('highlight');
+      indicator.textContent = steps[index] || 'Potato Shield';
+      index = (index + 1) % steps.length;
+    }
+
+    highlight();
+    setInterval(highlight, duration);
+  </script>
+</body>
+</html>

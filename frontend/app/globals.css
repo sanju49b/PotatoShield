@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'leaflet/dist/leaflet.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix Leaflet Map Font Overlaps */
+.leaflet-container {
+  font-family: ui-sans-serif, -apple-system, system-ui, sans-serif !important;
+  z-index: 0;
+}
+
+.leaflet-control {
+  z-index: 1000 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+  background: #2d2d2d !important;
+  color: #e8e8e8 !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px !important;
+  font-size: 14px !important;
+}
+
+.leaflet-popup-tip {
+  background: #2d2d2d !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #e8e8e8 !important;
+  font-size: 10px !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-control-zoom a {
+  background: #2d2d2d !important;
+  color: #e8e8e8 !important;
+  border: 1px solid #3a3a3a !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #3a3a3a !important;
+  color: #f97316 !important;
+}
+
+@layer base {
+  body {
+    background: #1a1a1a; /* very dark gray, almost black */
+    color: #e8e8e8; /* light gray for text */
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    min-height: 100vh;
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-blink {
+  animation: blink 3s ease-in-out infinite;
+}
+
+@layer utilities {
+  .robotic-text {
+    font-family: 'Inter', ui-sans-serif, system-ui;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0;
+    text-shadow: none;
+  }
+  
+  .robotic-text-orange {
+    @apply robotic-text;
+    color: #f97316; /* orange-500 */
+  }
+  
+  .robotic-text-green {
+    @apply robotic-text;
+    color: #22c55e; /* green-500 */
+  }
+  
+  .robotic-text-mixed {
+    @apply robotic-text;
+    background: linear-gradient(135deg, #f97316 0%, #22c55e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .robotic-text-large {
+    @apply robotic-text;
+    font-size: clamp(2rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .robotic-text-medium {
+    @apply robotic-text;
+    font-size: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .robotic-text-small {
+    @apply robotic-text;
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+    font-weight: 500;
+  }
+
+  /* Inputs keep normal casing */
+  input, textarea {
+    text-transform: none !important;
+  }
+
+  label.robotic-text {
+    text-transform: none;
+  }
+
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  .glow-orange {
+    box-shadow: 
+      0 0 20px rgba(249, 115, 22, 0.25),
+      0 0 40px rgba(249, 115, 22, 0.15),
+      0 0 60px rgba(249, 115, 22, 0.1);
+  }
+
+  .border-orange {
+    border: 1px solid #f97316;
+    box-shadow: 
+      inset 0 0 10px rgba(249, 115, 22, 0.15),
+      0 0 20px rgba(249, 115, 22, 0.25);
+  }
+}
+

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1600">
+  <title>Potato Shield – System Architecture</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Amazon Ember', 'Segoe UI', system-ui, sans-serif;
+      background: #1a1d29;
+      color: #e8e8e8;
+      margin: 0;
+      padding: 24px 32px 48px;
+      min-width: 1400px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+      letter-spacing: 0.02em;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 28px;
+    }
+    .region {
+      border: 2px solid #3b82f6;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      background: rgba(59, 130, 246, 0.06);
+    }
+    .region-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #93c5fd;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.35);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; justify-content: flex-start; }
+    .box {
+      border-radius: 8px;
+      padding: 10px 14px;
+      min-width: 140px;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+    }
+    .box .label { font-weight: 600; margin-bottom: 2px; }
+    .box .detail { font-size: 0.7rem; color: #9ca3af; font-weight: 400; }
+    .box.user { background: linear-gradient(135deg, #374151 0%, #1f2937 100%); border-color: #4b5563; }
+    .box.frontend { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); border-color: #f97316; color: #fff; }
+    .box.api { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-color: #3b82f6; color: #fff; }
+    .box.rai { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border-color: #8b5cf6; color: #fff; }
+    .box.agent { background: linear-gradient(135deg, #059669 0%, #047857 100%); border-color: #10b981; color: #fff; }
+    .box.model { background: linear-gradient(135deg, #be185d 0%, #9d174d 100%); border-color: #ec4899; color: #fff; }
+    .box.memory { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); border-color: #14b8a6; color: #fff; }
+    .box.storage { background: linear-gradient(135deg, #b45309 0%, #92400e 100%); border-color: #d97706; color: #fff; }
+    .box.ext { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); border-color: #2563eb; color: #fff; }
+    .arrow-row { display: flex; justify-content: center; padding: 6px 0; color: #6b7280; font-size: 0.75rem; }
+    .flow-section { margin: 16px 0; }
+    .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media print { body { background: #0f172a; } .region { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <h1>Potato Shield – System Architecture</h1>
+  <p class="subtitle">UK–India AIxcelerate · Responsible AI · Agents · Models · Algorithms</p>
+
+  <!-- 1. User & presentation -->
+  <div class="region">
+    <div class="region-title">User & presentation layer</div>
+    <div class="row">
+      <div class="box user"><div class="label">User (Farmer)</div><div class="detail">India / UK</div></div>
+      <div class="box frontend"><div class="label">Next.js frontend</div><div class="detail">Vercel · React · TypeScript · SSE</div></div>
+      <div class="box frontend"><div class="label">Chat UI</div><div class="detail">Streaming · Multi-language</div></div>
+      <div class="box frontend"><div class="label">Dashboard</div><div class="detail">Risk timeline · Map · Reports</div></div>
+    </div>
+  </div>
+
+  <div class="arrow-row">↓ HTTPS / REST · Server-Sent Events (SSE)</div>
+
+  <!-- 2. API & RAI -->
+  <div class="region">
+    <div class="region-title">API gateway & responsible AI</div>
+    <div class="row">
+      <div class="box api"><div class="label">FastAPI</div><div class="detail">api/main.py</div></div>
+      <div class="box api"><div class="label">Endpoints</div><div class="detail">/auth · /api/chat · /api/chat/stream · /dashboard</div></div>
+      <div class="box rai"><div class="label">RAI middleware</div><div class="detail">Input / output validation</div></div>
+      <div class="box rai"><div class="label">Local guard</div><div class="detail">Blocked phrases · PII regex · Length</div></div>
+      <div class="box rai"><div class="label">RAI client</div><div class="detail">Infosys RAI Toolkit</div></div>
+    </div>
+  </div>
+
+  <div class="arrow-row">↓ Sanitized input · JWT</div>
+
+  <!-- 3. RAI toolkit (external) -->
+  <div class="region">
+    <div class="region-title">Infosys responsible AI toolkit (validation layer)</div>
+    <div class="row">
+      <div class="box rai"><div class="label">Moderation</div><div class="detail">Prompt injection · Jailbreak · Toxicity</div></div>
+      <div class="box rai"><div class="label">Privacy</div><div class="detail">PII detect · Anonymize</div></div>
+      <div class="box rai"><div class="label">Hallucination</div><div class="detail">Factual consistency · RAG verify</div></div>
+      <div class="box rai"><div class="label">Safety</div><div class="detail">Profanity · Harmful content</div></div>
+      <div class="box rai"><div class="label">Fairness</div><div class="detail">Disparate impact · Bias</div></div>
+      <div class="box rai"><div class="label">Explainability</div><div class="detail">Chain-of-Thought · Token importance</div></div>
+    </div>
+  </div>
+
+  <div class="arrow-row">↓ Safe input → workflow</div>
+
+  <!-- 4. Orchestration & agents -->
+  <div class="region">
+    <div class="region-title">Agent orchestration (LangGraph)</div>
+    <div class="row">
+      <div class="box agent"><div class="label">Load context</div><div class="detail">User · Fields · Memory</div></div>
+      <div class="box agent"><div class="label">Router agent</div><div class="detail">Intent → predictive / diagnostic / general_chat</div></div>
+      <div class="box agent"><div class="label">Data collection agent</div><div class="detail">Missing location · Sowing date</div></div>
+    </div>
+    <div class="flow-section"></div>
+    <div class="row">
+      <div class="box agent"><div class="label">Predictive agent</div><div class="detail">Calls BlightPredictionAgent</div></div>
+      <div class="box agent"><div class="label">Blight prediction agent</div><div class="detail">Weather · Rules · Streaming report</div></div>
+      <div class="box agent"><div class="label">Diagnostic agent</div><div class="detail">Image · GPT-4V · Symptom match</div></div>
+      <div class="box agent"><div class="label">General chat agent</div><div class="detail">RAG · Tavily · Multi-language</div></div>
+      <div class="box agent"><div class="label">Save conversation</div><div class="detail">Short-term + long-term memory</div></div>
+    </div>
+  </div>
+
+  <div class="arrow-row">↓ State · Tools · Models</div>
+
+  <!-- 5. Models & algorithms -->
+  <div class="region">
+    <div class="region-title">Models & algorithms</div>
+    <div class="row">
+      <div class="box model"><div class="label">Disease classifier (ML)</div><div class="detail">RandomForest · 95.2% acc · Early vs Late Blight</div></div>
+      <div class="box model"><div class="label">Rule engine</div><div class="detail">Late/Early Blight thresholds · E(t), H(t)</div></div>
+      <div class="box model"><div class="label">Sliding window</div><div class="detail">7-day window · Daily risk %</div></div>
+      <div class="box model"><div class="label">Hutton criteria</div><div class="detail">UK · RH ≥90% · 6h · 2 days</div></div>
+      <div class="box model"><div class="label">Infection periods</div><div class="detail">RH duration · Leaf wetness</div></div>
+      <div class="box model"><div class="label">Persistence / cumulative</div><div class="detail">Risk decay · Cumulative index</div></div>
+      <div class="box model"><div class="label">LLMs</div><div class="detail">GPT-4o-mini · GPT-4o · GPT-4V</div></div>
+    </div>
+  </div>
+
+  <!-- 6. Memory & storage -->
+  <div class="two-cols">
+    <div class="region">
+      <div class="region-title">Memory</div>
+      <div class="row">
+        <div class="box memory"><div class="label">Short-term</div><div class="detail">Session · Recent turns</div></div>
+        <div class="box memory"><div class="label">Long-term</div><div class="detail">Profiles · History · PII sanitized</div></div>
+        <div class="box memory"><div class="label">DynamoDB short-term</div><div class="detail">Production sessions</div></div>
+      </div>
+    </div>
+    <div class="region">
+      <div class="region-title">Storage (AWS-ready)</div>
+      <div class="row">
+        <div class="box storage"><div class="label">SQLite</div><div class="detail">Dev · users · conversations · fields</div></div>
+        <div class="box storage"><div class="label">DynamoDB</div><div class="detail">Users · Messages · Fields · OTP</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row">↓ External APIs</div>
+
+  <!-- 7. External services -->
+  <div class="region">
+    <div class="region-title">External services</div>
+    <div class="row">
+      <div class="box ext"><div class="label">Open-Meteo</div><div class="detail">Weather · Forecast · Historical</div></div>
+      <div class="box ext"><div class="label">Tavily</div><div class="detail">Web search · RAG</div></div>
+      <div class="box ext"><div class="label">OpenAI</div><div class="detail">Chat · Vision · Embeddings</div></div>
+      <div class="box ext"><div class="label">AWS SES</div><div class="detail">OTP · Email</div></div>
+      <div class="box ext"><div class="label">Infosys RAI backend</div><div class="detail">Moderation · Hallucination · Privacy · etc.</div></div>
+    </div>
+  </div>
+
+  <p class="subtitle" style="margin-top:28px">Potato Shield · UK–India AIxcelerate Programme</p>
+</body>
+</html>

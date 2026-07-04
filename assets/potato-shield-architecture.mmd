@@ -1,0 +1,105 @@
+%% Potato Shield - AWS-style System Architecture
+%% Export to PNG: https://mermaid.live or npx @mermaid-js/mermaid-cli mmdc -i potato-shield-architecture.mmd -o potato-shield-architecture.png -b transparent
+
+flowchart TB
+    subgraph user["👤 USER & PRESENTATION"]
+        U[User / Farmer<br/>India · UK]
+        FE[Next.js Frontend<br/>Vercel · React · TypeScript]
+        Chat[Chat UI<br/>SSE · Multi-language]
+        Dash[Dashboard<br/>Risk · Map · Reports]
+    end
+
+    subgraph api["🔐 API GATEWAY & RAI"]
+        FastAPI[FastAPI<br/>api/main.py]
+        RAI[RAI Middleware<br/>Input/Output Validation]
+        Guard[Local Guard<br/>PII · Blocked phrases]
+    end
+
+    subgraph rai_toolkit["🛡️ INFOSYS RAI TOOLKIT"]
+        Mod[Moderation<br/>Injection · Jailbreak · Toxicity]
+        Priv[Privacy<br/>PII · Anonymize]
+        Hall[Hallucination<br/>Factual · RAG verify]
+        Safe[Safety<br/>Profanity · Harm]
+        Fair[Fairness<br/>Disparate impact]
+        Expl[Explainability<br/>CoT · Token importance]
+    end
+
+    subgraph agents["🤖 AGENT ORCHESTRATION - LangGraph"]
+        Load[Load Context]
+        Router[Router Agent<br/>predictive / diagnostic / general_chat]
+        DataCol[Data Collection Agent]
+        Pred[Predictive Agent]
+        Blight[Blight Prediction Agent<br/>Weather · Rules · Stream]
+        Diag[Diagnostic Agent<br/>Image · GPT-4V]
+        GenChat[General Chat Agent<br/>RAG · Tavily]
+        Save[Save Conversation]
+    end
+
+    subgraph models["📐 MODELS & ALGORITHMS"]
+        ML[Disease Classifier<br/>RandomForest · 95.2% acc]
+        Rules[Rule Engine<br/>Late/Early Blight · E(t) H(t)]
+        Sliding[Sliding Window<br/>7-day · Daily risk %]
+        Hutton[Hutton Criteria<br/>UK blight warning]
+        Infect[Infection Periods<br/>RH · Leaf wetness]
+        Persist[Persistence / Cumulative<br/>Risk decay]
+        LLM[LLMs<br/>GPT-4o-mini · 4o · 4V]
+    end
+
+    subgraph memory["💾 MEMORY & STORAGE"]
+        STM[Short-Term Memory<br/>Session]
+        LTM[Long-Term Memory<br/>Profiles · History]
+        DDB[(DynamoDB<br/>Production)]
+        SQL[(SQLite<br/>Dev)]
+    end
+
+    subgraph external["🌐 EXTERNAL SERVICES"]
+        OpenMeteo[Open-Meteo<br/>Weather]
+        Tavily[Tavily<br/>Web search · RAG]
+        OpenAI[OpenAI API]
+        SES[AWS SES<br/>OTP · Email]
+        RAIBackend[Infosys RAI Backend]
+    end
+
+    U --> FE
+    FE --> Chat
+    FE --> Dash
+    Chat --> FastAPI
+    Dash --> FastAPI
+    FastAPI --> RAI
+    RAI --> Guard
+    RAI --> Mod
+    RAI --> Priv
+    RAI --> Hall
+    Mod --> Load
+    Load --> Router
+    Router --> DataCol
+    Router --> Pred
+    Router --> Diag
+    Router --> GenChat
+    Pred --> Blight
+    Blight --> Rules
+    Blight --> Sliding
+    Blight --> Hutton
+    Blight --> ML
+    Blight --> OpenMeteo
+    Diag --> LLM
+    GenChat --> Tavily
+    GenChat --> LLM
+    Rules --> Infect
+    Rules --> Persist
+    Pred --> Save
+    Diag --> Save
+    GenChat --> Save
+    Save --> STM
+    Save --> LTM
+    LTM --> DDB
+    LTM --> SQL
+    RAI --> RAIBackend
+
+    style user fill:#1f2937,stroke:#4b5563
+    style api fill:#1e3a5f,stroke:#2563eb
+    style rai_toolkit fill:#3b0764,stroke:#7c3aed
+    style agents fill:#064e3b,stroke:#059669
+    style models fill:#831843,stroke:#be185d
+    style memory fill:#134e4a,stroke:#0d9488
+    style external fill:#1e3a8a,stroke:#3b82f6

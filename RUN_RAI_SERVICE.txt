@@ -1,0 +1,20 @@
+===============================================
+COPY AND PASTE THIS IN YOUR POWERSHELL TERMINAL
+===============================================
+
+# Navigate to RAI source directory
+cd c:\Users\satya\Desktop\Potato-Shield\rai-toolkit\responsible-ai-moderationlayer\src
+
+# Set ALL required environment variables
+$env:DBTYPE = "False"
+$env:VERIFY_SSL = "False"
+$env:FLASK_PORT = "5555"
+$env:FLASK_HOST = "0.0.0.0"
+$env:OPENAI_API_KEY = "your-openai-api-key-here"
+
+# Start the RAI service
+python main.py
+
+===============================================
+The service will start on http://0.0.0.0:5555
+===============================================

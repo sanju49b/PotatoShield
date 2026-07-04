@@ -1,0 +1,249 @@
+# Infosys Responsible AI Toolkit Configuration
+# UK-India AIxcelerate 2025-26 Compliance
+
+responsible_ai:
+  enabled: true
+  version: "2.2.0"
+  
+  # RAI Backend Service Configuration
+  backend:
+    endpoint: "http://localhost:5555"
+    api_key: "${RAI_API_KEY}"  # Set in environment variables
+    timeout: 30  # seconds
+    
+  # ModerationLayer API (Comprehensive suite)
+  moderation_layer:
+    endpoint: "http://localhost:5555/rai/v1/moderations"
+    enabled: true
+    auto_validate_input: true
+    auto_validate_output: true
+    thresholds:
+      overall_risk: 0.7
+      
+  # Safety & Security Module
+  safety:
+    endpoint: "http://localhost:5555/rai/v1/moderations"
+    enabled: true
+    checks:
+      - toxicity
+      - profanity
+      - prompt_injection
+      - jailbreak
+      - restricted_topics
+    thresholds:
+      toxicity: 0.7
+      prompt_injection: 0.8
+      jailbreak: 0.75
+    block_on_violation: true
+    
+  # Privacy Module (DPDP Act 2023 + UK GDPR)
+  privacy:
+    endpoint: "http://localhost:5555/rai/v1/moderations"
+    enabled: true
+    auto_anonymize: true
+    pii_types:
+      - email
+      - phone
+      - aadhaar  # India national ID
+      - credit_card
+      - address
+      - name
+    anonymization_method: "redaction"  # redaction, encryption, masking
+    log_pii_detections: true
+    
+  # Hallucination Detection Module
+  hallucination:
+    endpoint: "http://localhost:5555/rai/v1/moderations"
+    enabled: true
+    verification_mode: "rag"  # RAG scenario verification
+    require_ground_truth: true
+    thresholds:
+      hallucination_score: 0.6
+      factual_consistency: 0.8
+    domains:
+      - agriculture
+      - weather
+      - disease_management
+    block_high_hallucination: true
+    
+  # Fairness & Bias Detection Module
+  fairness:
+    endpoint: "http://localhost:5555/rai/v1/moderations"
+    enabled: true
+    protected_attributes:
+      - country  # India vs UK
+      - region  # Urban vs Rural
+      - farm_size  # Smallholder vs Commercial
+      - language  # English vs Regional
+      - resource_level  # Low-resource vs High-resource
+    metrics:
+      - statistical_parity
+      - disparate_impact_ratio
+      - four_fifths_rule
+      - cohens_d
+    thresholds:
+      disparate_impact_min: 0.8  # Four-fifths rule (80%)
+      statistical_parity_max: 0.1
+    mitigation:
+      auto_apply: false
+      methods:
+        - equalized_odds
+        - reweighting
+    
+  # Explainability Module
+  explainability:
+    endpoint: "http://localhost:5555/rai/v1/moderations"
+    enabled: true
+    methods:
+      - chain_of_thought  # CoT
+      - thread_of_thought  # ThoT
+      - chain_of_verification  # CoVe
+    min_confidence_for_explanation: 0.5
+    explain_high_risk_predictions: true
+    include_in_response: true
+    
+  # Governance & Audit Logging
+  governance:
+    enabled: true
+    audit_logging: true
+    log_level: "detailed"  # basic, detailed, comprehensive
+    log_destination: "database"  # database, elasticsearch, file
+    
+    # Metrics tracking
+    track_metrics:
+      - safety_violations
+      - privacy_detections
+      - hallucination_rate
+      - fairness_score
+      - explainability_coverage
+      - prediction_accuracy
+    
+    # Compliance reporting
+    compliance_reports:
+      enabled: true
+      frequency: "weekly"  # daily, weekly, monthly
+      recipients:
+        - "admin@potatoshield.com"
+    
+  # Telemetry Module (Elasticsearch + Kibana)
+  telemetry:
+    enabled: false  # Enable when Elasticsearch is set up
+    elasticsearch:
+      endpoint: "http://localhost:9200"
+      index_prefix: "potato-shield-rai"
+      username: "${ELASTIC_USER}"
+      password: "${ELASTIC_PASSWORD}"
+    kibana:
+      endpoint: "http://localhost:5601"
+    retention_days: 90
+    
+  # Red Teaming & Security Testing
+  red_teaming:
+    enabled: false  # Enable for security testing
+    endpoint: "http://localhost:5555/api/redteam"
+    techniques:
+      - PAIR  # Prompt Automatic Iterative Refinement
+      - TAP  # Tree of Attacks with Pruning
+    
+# Agriculture-Specific RAI Configuration
+agriculture_rai:
+  # Sector-specific risks (Section 10.2)
+  risk_categories:
+    - job_elimination: false  # AI assists, doesn't replace farmers
+    - decision_making_bias: true  # Monitor for regional bias
+    - unauthorized_data_processing: true  # Protect farmer data
+    - poor_data_quality: true  # Weather data quality critical
+    - hallucination: true  # Wrong advice can harm crops
+    - model_drift: true  # Seasonal and climate changes
+    - model_unwanted_bias: true  # Fairness across farm sizes
+    - unexplainable_model_result: true  # Farmers need explanations
+    
+  # Fairness requirements
+  fairness_requirements:
+    smallholder_farmer_protection: true
+    regional_language_support: true
+    low_resource_accessibility: true
+    equitable_service_delivery: true
+    
+  # Safety requirements
+  safety_requirements:
+    verified_treatment_recommendations: true
+    dosage_validation: true
+    human_oversight_high_risk: true
+    fallback_mechanisms: true
+    
+  # Transparency requirements
+  transparency_requirements:
+    explain_all_predictions: true
+    data_source_disclosure: true
+    model_limitations_disclosure: true
+    confidence_levels: true
+
+# Evaluation Criteria Mapping (UK-India AIxcelerate)
+evaluation_criteria:
+  transparency_explainability:
+    weight: 12.5  # percentage
+    requirements:
+      - data_sources_documented
+      - decision_logic_explainable
+      - limitations_communicated
+      - rai_explainability_api_integrated
+      
+  accountability_governance:
+    weight: 12.5
+    requirements:
+      - roles_defined
+      - audit_trail_maintained
+      - governance_board_review
+      - rai_telemetry_tracking
+      
+  safety_robustness:
+    weight: 12.5
+    requirements:
+      - stress_testing_completed
+      - rai_safety_api_integrated
+      - adversarial_testing_done
+      - monitoring_enabled
+      
+  fairness_non_discrimination:
+    weight: 12.5
+    requirements:
+      - rai_fairness_api_integrated
+      - disparate_impact_analyzed
+      - bias_mitigation_applied
+      - regional_parity_checked
+      
+  privacy_data_governance:
+    weight: 12.5
+    requirements:
+      - rai_privacy_api_integrated
+      - dpdp_act_compliance
+      - uk_gdpr_compliance
+      - pii_anonymization
+      
+  human_centricity:
+    weight: 12.5
+    requirements:
+      - human_in_loop_high_risk
+      - feedback_mechanism
+      - contestability_enabled
+      - user_wellbeing_prioritized
+      
+  inclusiveness_accessibility:
+    weight: 12.5
+    requirements:
+      - multi_region_support
+      - smallholder_accessible
+      - language_considerations
+      - low_resource_options
+      
+  sustainability_social_impact:
+    weight: 12.5
+    requirements:
+      - low_carbon_infrastructure
+      - positive_farmer_impact
+      - environmental_consideration
+      - sdg_alignment
+
+# Scoring: Total 100% across 8 principles
+target_score: 21  # out of 24 for High Adherence (see Section 8)

@@ -1,0 +1,40 @@
+# Potato Shield - Core Dependencies
+
+# AI & LLM
+langchain-openai
+tavily-python
+openai
+langgraph
+
+# API Framework
+fastapi
+uvicorn
+pydantic
+python-multipart
+
+# Security & Auth
+passlib
+bcrypt
+python-dotenv
+
+# AWS (Optional - for DynamoDB)
+boto3
+
+# Image Processing
+Pillow
+
+# Machine Learning (for disease classifier)
+scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Infosys Responsible AI Toolkit Integration
+# Note: RAI Toolkit modules must be installed separately using setup_rai_toolkit.sh/bat
+# These are common dependencies for RAI integration
+pyyaml>=6.0
+requests>=2.31.0
+python-json-logger>=2.0.0
+
+# Optional: For RAI Telemetry (Governance & Monitoring)
+elasticsearch>=8.0.0  # Only if using Elasticsearch for audit logs
+kibana-api>=1.0.0  # Only if using Kibana dashboards

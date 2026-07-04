@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <title>Responsible AI Toolkit – How Potato Shield Uses It</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Amazon Ember', 'Segoe UI', system-ui, sans-serif;
+      background: #1a1d29;
+      color: #e8e8e8;
+      margin: 0;
+      padding: 28px 40px 48px;
+      min-width: 1100px;
+    }
+    h1 { text-align: center; font-size: 1.6rem; font-weight: 600; margin: 0 0 6px; letter-spacing: 0.02em; }
+    .subtitle { text-align: center; font-size: 0.9rem; color: #9ca3af; margin-bottom: 24px; }
+    .region {
+      border: 2px solid #7c3aed;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      background: rgba(124, 58, 237, 0.08);
+    }
+    .region-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a78bfa;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.4);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+    .box {
+      border-radius: 8px;
+      padding: 10px 14px;
+      min-width: 160px;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .box .label { font-weight: 600; margin-bottom: 2px; }
+    .box .detail { font-size: 0.7rem; color: #9ca3af; font-weight: 400; }
+    .box.app { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-color: #3b82f6; color: #fff; }
+    .box.usage { background: linear-gradient(135deg, #059669 0%, #047857 100%); border-color: #10b981; color: #fff; }
+    .box.toolkit { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border-color: #8b5cf6; color: #fff; }
+    .box.outcome { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); border-color: #14b8a6; color: #fff; }
+    .arrow-row { display: flex; justify-content: center; padding: 8px 0; color: #6b7280; font-size: 0.75rem; }
+    .flow-num { color: #a78bfa; font-weight: 700; margin-right: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Responsible AI Toolkit – How Potato Shield Uses It</h1>
+  <p class="subtitle">Infosys RAI Toolkit · AWS-style integration · api/main.py · rai_middleware · rai_client</p>
+
+  <div class="region">
+    <div class="region-title">Application layer (Potato Shield)</div>
+    <div class="row">
+      <div class="box app"><div class="label">FastAPI</div><div class="detail">api/main.py</div></div>
+      <div class="box app"><div class="label">RAI Middleware</div><div class="detail">rai_middleware.py</div></div>
+      <div class="box app"><div class="label">RAI Client</div><div class="detail">rai_client.py · config/rai_config.yaml</div></div>
+    </div>
+  </div>
+  <div class="arrow-row"><span class="flow-num">1</span> Every /api/chat & /api/chat/stream request</div>
+
+  <div class="region">
+    <div class="region-title">How we use it – input path</div>
+    <div class="row">
+      <div class="box usage"><div class="label">validate_user_input()</div><div class="detail">Before any agent runs</div></div>
+      <div class="box usage"><div class="label">Local guard first</div><div class="detail">Length · Blocked phrases · PII regex · URL flood</div></div>
+      <div class="box usage"><div class="label">check_input_moderation()</div><div class="detail">RAI ModerationLayer API call</div></div>
+      <div class="box outcome"><div class="label">Block or pass</div><div class="detail">Unsafe → 403 + violations · Safe → sanitized_input</div></div>
+    </div>
+  </div>
+  <div class="arrow-row"><span class="flow-num">2</span> Sanitized message → workflow</div>
+
+  <div class="region">
+    <div class="region-title">Infosys Responsible AI Toolkit (Starter Pack)</div>
+    <div class="row">
+      <div class="box toolkit"><div class="label">ModerationLayer</div><div class="detail">PromptInjection · JailBreak · Toxicity · Piidetct · Profanity</div></div>
+      <div class="box toolkit"><div class="label">Privacy</div><div class="detail">PII detect · Anonymize · maskedText</div></div>
+      <div class="box toolkit"><div class="label">Hallucination</div><div class="detail">Factual consistency · ground truth</div></div>
+      <div class="box toolkit"><div class="label">Safety</div><div class="detail">Toxicity · Profanity · Harmful content</div></div>
+      <div class="box toolkit"><div class="label">Fairness</div><div class="detail">Disparate impact · Bias metrics</div></div>
+      <div class="box toolkit"><div class="label">Explainability</div><div class="detail">Chain-of-Thought · Token importance</div></div>
+    </div>
+  </div>
+  <div class="arrow-row"><span class="flow-num">3</span> Toolkit APIs (e.g. localhost:5555/rai/v1/moderations)</div>
+
+  <div class="region">
+    <div class="region-title">How we use it – output path</div>
+    <div class="row">
+      <div class="box usage"><div class="label">validate_ai_output()</div><div class="detail">After prediction/response generated</div></div>
+      <div class="box usage"><div class="label">detect_hallucination()</div><div class="detail">AI response vs weather_dataset · ground truth</div></div>
+      <div class="box usage"><div class="label">generate_explanation()</div><div class="detail">High-risk → CoT reasoning</div></div>
+      <div class="box outcome"><div class="label">Block or return</div><div class="detail">Unsafe → no response · Safe → response + rai_metadata</div></div>
+    </div>
+  </div>
+
+  <div class="region">
+    <div class="region-title">Outcomes</div>
+    <div class="row">
+      <div class="box outcome"><div class="label">Input blocked</div><div class="detail">Prompt injection · PII · Toxicity</div></div>
+      <div class="box outcome"><div class="label">PII anonymized</div><div class="detail">Phone · Email · Long digits → [REDACTED]</div></div>
+      <div class="box outcome"><div class="label">Output validated</div><div class="detail">Hallucination · Safety · Fairness</div></div>
+      <div class="box outcome"><div class="label">Audit logged</div><div class="detail">Redacted · log_audit_event</div></div>
+    </div>
+  </div>
+
+  <p class="subtitle" style="margin-top:20px">Potato Shield · UK–India AIxcelerate · Infosys RAI Toolkit</p>
+</body>
+</html>
